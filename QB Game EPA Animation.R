@@ -74,7 +74,7 @@ BothQB <- rbind(FitzMagic, Brees)
 # get logo
 logo_url <- "https://raw.githubusercontent.com/papagorgio23/BuccaneeRstat/master/images/Tampa.png"
 logo <-  png::readPNG(getURLContent(logo_url))
-rast <- grid::rasterGrob(img, interpolate = T)
+rast <- grid::rasterGrob(logo, interpolate = T)
 
 # plot game
 ggplot(BothQB, aes(Play_Num, Total_EPA, group = QB)) +
