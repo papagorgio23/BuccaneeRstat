@@ -1,0 +1,37 @@
+---
+title: "Animated QB EPA Game Visual"
+author: "Jason Lee, Sr. Data Scientist - A.I. Sports"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Load libraries
+
+```{r load}
+library("tidyverse")
+library("dplyr")
+library("ggimage")
+library("teamcolors")
+library("nflscrapR")
+library("gganimate")
+library("RCurl")
+library("png")
+library("grid")
+```
+
+##    Relive Birth of FitzMagic 
+
+Week 1 2018 vs Drew Brees
+
+
+```{r}
+## Load data
+play_by_play2018 <- read_csv(url("https://github.com/ryurko/nflscrapR-data/raw/master/play_by_play_data/regular_season/reg_pbp_2018.csv"))
+
+```
+
+
