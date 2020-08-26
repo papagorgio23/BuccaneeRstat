@@ -405,3 +405,4 @@ ggdraw() +
   draw_plot(def_plot) +
   draw_image(logo_file, x = 0.215, y = 0.985, hjust = 1, vjust = 1, width = 0.13, height = 0.17)
 
+

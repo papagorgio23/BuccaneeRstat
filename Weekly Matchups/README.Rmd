@@ -1,33 +1,70 @@
+---
+title: "Weekly Matchups"
+author: "Jason Lee, Sr. Data Scientist - A.I. Sports"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 
+## Load libraries
 
-#################################################
-
-######       Weekly Matchup Graphics       ######
-
-#################################################
-
-
-# load libraries
+```{r load, message=FALSE, warning=FALSE}
 library("tidyverse")
 library("rvest")
 library("cowplot")
 library("reshape2")
 library("readr")
 library("glue")
+```
 
+## Set Global Variables
 
-###### GLOBAL VARIABLES
+Week 17 2019 
+
+Tampa vs. Atlanta
+
+```{r}
+## GLOBAL VARIABLES
 TEAM_1 <- "TB"
 TEAM_2 <- "ATL"
 WEEK_NUMBER <- 10
 TEAM_1_LINE <- -6.5
+```
 
 
+
+## Load Data
+
+```{r}
 ## load data
-nfl_team_colors <- read_csv("data/nfl_team_colors.csv")
-NFL_Team_info <- read_csv("data/NFL_Team_info.csv")
+nfl_team_colors <- read_csv("../data/nfl_team_colors.csv")
+NFL_Team_info <- read_csv("../data/NFL_Team_info.csv")
 
+######## Get Global plotting variables
+## get colors
+TEAM_1_color <- nfl_team_colors %>%
+  filter(team == TEAM_1) %>%
+  pull(color)
+TEAM_2_color <- nfl_team_colors %>%
+  filter(team == TEAM_2) %>%
+  pull(color2)
+
+## full team name
+TEAM_1_name <- NFL_Team_info %>%
+  filter(team_code == TEAM_1) %>%
+  pull(team)
+TEAM_2_name <- NFL_Team_info %>%
+  filter(team_code == TEAM_2) %>%
+  pull(team)
+```
+
+
+## Load Functions
+
+```{r}
 ## A.I. Sports Theme
 theme_ai_sports <- function(base_size = 12, font = "Impact") {
 
@@ -83,22 +120,27 @@ zscore <- function(value, valueMean, valueSD) {
 
 ## gets rid of percent sign in the dataframes
 cleanPercent <- function(x) {gsub("\\%", "", x)}
-
+```
 
 
 ## Setup
-# 9 offensive and 7 defensive stats
-#' 1. Offensive DVOA - rankings
-#' 2. Pass DVOA - rankings
-#' 3. Rush DVOA - rankings
-#' 4. DSR (Successful Drives) - odrive1
-#' 5. Avoid Turnovers - odrive1
-#' 6. Redzone Points - odrive2
-#' 7. Run Block O-line - oline
-#' 8. Pass Block O-line - oline
-#' 9. Pace - pace
+
+#### 9 offensive and 7 defensive stats   
+  
+1. Offensive DVOA - rankings  
+2. Pass DVOA - rankings  
+3. Rush DVOA - rankings  
+4. DSR (Successful Drives) - odrive1  
+5. Avoid Turnovers - odrive1  
+6. Redzone Points - odrive2  
+7. Run Block O-line - oline  
+8. Pass Block O-line - oline  
+9. Pace - pace  
 
 
+### Offensive Stats
+
+```{r}
 # Get rankings
 rankings_url <- "https://www.footballoutsiders.com/stats/teamoff/2019"
 rankings <- read_html(rankings_url) %>%
@@ -195,27 +237,6 @@ Offensive$Pace <- zscore(Offensive$Pace, avg_offense$Pace, sd_offense$Pace)
 Offensive$TO <- 100 - Offensive$TO
 Offensive$PassBlock <- 100 - Offensive$PassBlock
 
-
-######## Get Global plotting variables
-## get colors
-TEAM_1_color <- nfl_team_colors %>%
-  filter(team == TEAM_1) %>%
-  pull(color)
-TEAM_2_color <- nfl_team_colors %>%
-  filter(team == TEAM_2) %>%
-  pull(color2)
-
-## full team name
-TEAM_1_name <- NFL_Team_info %>%
-  filter(team_code == TEAM_1) %>%
-  pull(team)
-TEAM_2_name <- NFL_Team_info %>%
-  filter(team_code == TEAM_2) %>%
-  pull(team)
-
-
-
-######## Plot Offense
 # OFFENSE
 teams_odata <- Offensive %>%
   filter(Team %in% c(TEAM_1, TEAM_2)) %>%
@@ -228,44 +249,14 @@ teams_odata <- Offensive %>%
          `Pass Blocking` = PassBlock,
          `Avoid Turnovers` = TO) %>%
   melt(id.vars = "Team")
-
-# Base Offensive Plot
-off_plot <- teams_odata %>%
-  ggplot(aes(x = Team,
-             y = value,
-             fill = Team,
-             position = "dodge",
-             group = variable)) +
-  geom_col() +
-  facet_grid(~variable) +
-  geom_hline(yintercept = 0, color = "black", size = 2) +
-  scale_y_continuous(breaks = seq(0, 100, 10)) +
-  theme_ai_sports() +
-  scale_fill_manual(values = c(TEAM_2_color, TEAM_1_color)) +
-  labs(
-    x = "",
-    y = "Score",
-    title = glue("Week {WEEK_NUMBER} Matchup - Offensive Stats"),
-    subtitle = glue("\n{TEAM_1_name} ({TEAM_1_LINE}) vs. {TEAM_2_name}\n"),
-    caption = "Data: A.I. Sports & Football Outsiders"
-  ) +
-  theme(
-    panel.grid.major.x = element_blank(),
-    legend.position = "none",
-    plot.title = element_text(hjust = 0.5),
-    plot.subtitle = element_text(hjust = 0.5, size = 30)
-  )
+```
 
 
 
-### Plot
-logo_file <- "https://raw.githubusercontent.com/papagorgio23/BuccaneeRstat/master/images/BucRstats1.png"
-ggdraw() +
-  draw_plot(off_plot) +
-  draw_image(logo_file, x = 0.215, y = 0.985, hjust = 1, vjust = 1, width = 0.13, height = 0.17)
+### Defensive Stats
 
 
-
+```{r}
 ### DEFENSE
 # Get rankings
 d_rankings_url <- "https://www.footballoutsiders.com/stats/teamdef/2019"
@@ -361,7 +352,6 @@ Defensive$RunStuff <- 100 - Defensive$RunStuff
 
 
 
-######## Plot Defense
 # Defense
 teams_ddata <- Defensive %>%
   filter(Team %in% c(TEAM_1, TEAM_2)) %>%
@@ -375,7 +365,47 @@ teams_ddata <- Defensive %>%
          `Pass Rush` = PassRush,
          `Force Turnovers` = TO) %>%
   melt(id.vars = "Team")
+```
 
+
+
+
+### Plot Offensive Stats
+
+```{r}
+######## Plot Offense
+off_plot <- teams_odata %>%
+  ggplot(aes(x = Team,
+             y = value,
+             fill = Team,
+             position = "dodge",
+             group = variable)) +
+  geom_col() +
+  facet_grid(~variable) +
+  geom_hline(yintercept = 0, color = "black", size = 2) +
+  scale_y_continuous(breaks = seq(0, 100, 10)) +
+  theme_ai_sports() +
+  scale_fill_manual(values = c(TEAM_2_color, TEAM_1_color)) +
+  labs(
+    x = "",
+    y = "Score",
+    title = glue("Week {WEEK_NUMBER} Matchup - Offensive Stats"),
+    subtitle = glue("\n{TEAM_1_name} ({TEAM_1_LINE}) vs. {TEAM_2_name}\n"),
+    caption = "Data: A.I. Sports & Football Outsiders"
+  ) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    legend.position = "none",
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5, size = 30)
+  )
+```
+
+
+### Plot Offensive Stats
+
+```{r}
+######## Plot Defense
 def_plot <- teams_ddata %>%
   ggplot(aes(x = Team, y = value, fill = Team, position = "dodge", group = variable)) +
   geom_col() +
@@ -397,11 +427,37 @@ def_plot <- teams_ddata %>%
     plot.title = element_text(hjust = 0.5),
     plot.subtitle = element_text(hjust = 0.5, size = 30)
   )
+```
 
 
+
+
+```{r eval=FALSE}
+### Plot
+logo_file <- "https://raw.githubusercontent.com/papagorgio23/BuccaneeRstat/master/images/BucRstats1.png"
+ggdraw() +
+  draw_plot(off_plot) +
+  draw_image(logo_file, x = 0.215, y = 0.985, hjust = 1, vjust = 1, width = 0.13, height = 0.17)
+
+```
+
+
+```{r echo=FALSE}
+knitr::include_graphics("images/Weekly_Matchup_Offense.png")
+```
+
+
+
+```{r eval=FALSE}
 ### Plot
 logo_file <- "https://raw.githubusercontent.com/papagorgio23/BuccaneeRstat/master/images/BucRstats1.png"
 ggdraw() +
   draw_plot(def_plot) +
   draw_image(logo_file, x = 0.215, y = 0.985, hjust = 1, vjust = 1, width = 0.13, height = 0.17)
+```
 
+
+
+```{r echo=FALSE}
+knitr::include_graphics("images/Weekly_Matchup_Defense.png")
+```
