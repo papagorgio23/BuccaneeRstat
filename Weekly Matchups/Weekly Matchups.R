@@ -314,7 +314,7 @@ Defensive[, 2:10] <- sapply(Defensive[, 2:10], as.numeric)
 str(Defensive)
 
 
-###### OFFENSIVE Rankings
+###### DEFENSIVE Rankings
 # get this year averages
 avg_defense <- Defensive %>%
   summarise(Defense = median(DEFENSEDVOA),
