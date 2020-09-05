@@ -5,3 +5,7 @@
 
 # BuccaneeRstat
 Tampa Bay BuccaneeRs Official nflscrapR twitter feed
+
+### Tutorials
+
+Each folder contains a tutorial to reproduce visuals tweeted by the account. For any questions or help, feel free to DM. I'm always willing to collaborate!
