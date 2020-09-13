@@ -1,27 +1,8 @@
----
-title: "Post Game Analysis"
-author: "Jason Lee, Sr. Data Scientist - A.I. Sports"
-output: github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-
-## Load libraries
-
-```{r load}
 library(tidyverse)
 library(ggimage)
 library(nflfastR)
-```
-
-##  Function to Plot Drives
 
 
-```{r}
-# Plot Function
 plot_nfl_drive <- function(game_pbp,
                            asp = 8.1 / 12,
                            alt_color = "none") {
@@ -185,25 +166,8 @@ plot_nfl_drive <- function(game_pbp,
     )
 }
 
-```
-
-
-## Get Play-by-Play Data
-
-```{r}
 game_pbp <- nflfastR::fast_scraper("2019_17_ATL_TB")
-```
-
-## Plot and Save Chart
-
-```{r}
 plot_nfl_drive(game_pbp, alt_color = "away")
-```
-
-
-## Resize and Save Plot
-
-```{r eval=FALSE}
 ggsave(
   "images/week17.png",
   width = 8.1,
@@ -211,6 +175,3 @@ ggsave(
   units = "in",
   dpi = "retina"
 )
-```
-
-
