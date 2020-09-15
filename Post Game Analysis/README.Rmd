@@ -203,14 +203,21 @@ plot_nfl_drive(game_pbp, alt_color = "away")
 
 ## Resize and Save Plot
 
+As you can see the above plot is not sized properly. We will fix that when saving the output.
+
 ```{r eval=FALSE}
 ggsave(
-  "images/week17.png",
+  "Post Game Analysis/images/week17.png",
   width = 8.1,
   height = 12,
   units = "in",
   dpi = "retina"
 )
+```
+
+
+```{r}
+knitr::include_graphics("images/week1.png")
 ```
 
 
