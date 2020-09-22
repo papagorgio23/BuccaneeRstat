@@ -1,6 +1,7 @@
 Post Game Analysis
 ================
 Jason Lee, Sr. Data Scientist - A.I. Sports
+Jared Lee, Data Scientist - A.I. Sports
 
 ## Load libraries
 
