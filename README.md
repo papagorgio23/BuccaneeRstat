@@ -4,7 +4,7 @@
      margin-right: 2px;" />
 
 # BuccaneeRstat
-Tampa Bay BuccaneeRs Official nflscrapR/nflfastR twitter feed
+Tampa Bay BuccaneeRs Official nflscrapR/nflfastR twitter feed sponsored by [A.I. Sports](https://aisportsfirm.com/)
 
 ### Tutorials
 
