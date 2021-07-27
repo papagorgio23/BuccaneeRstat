@@ -12,3 +12,7 @@ Each folder contains a tutorial to reproduce visuals tweeted by the account. For
 
 **[buccaneeRstat](https://twitter.com/buccaneeRstat)**
 
+
+### Freelance Data Scientist 
+
+Feel free to hire me
