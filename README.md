@@ -15,4 +15,4 @@ Each folder contains a tutorial to reproduce visuals tweeted by the account. For
 
 ### Freelance Data Scientist 
 
-Feel free to hire me
+Feel free to hire me - [Jason Lee](https://www.linkedin.com/in/jasonmiles23/)
